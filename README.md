@@ -23,8 +23,8 @@ What goal will your project be designed to achieve?
 
 In brief, outline your approach to creating your project
    - Database Schema-
-        	--Users-name/email/admin status
-            	--Mechanic Services - list of services that a mechanic specifies that they are able to do (will have time needed to complete repair, parts needed , 			parts cost , labor cost
+        	-Users-name/email/admin status
+            	-Mechanic Services - list of services that a mechanic specifies that they are able to do (will have time needed to complete repair, parts needed , 			parts cost , labor cost
     -What kinds of issues might you run into with your api?
        		-- Upper limits of api calls.
     -Is there any sensitive information you need to secure?
@@ -32,7 +32,7 @@ In brief, outline your approach to creating your project
         	-- A stretch goal for this capstone is to include an online payment option. So if that is something I can include, I will need to be able to secure 			payment information 
    - What functionality will your app include?
         	--I intend for this project to be able to allow  a mechanic to be able to run/schedule their business from the admin side. The users will be able to 			look up information on their car issues and schedule appointments with the mechanic as appropriate. 
--What will the user flow look like?
+	-What will the user flow look like?
         	--The mechanic will be able to add specific services that they are able to provide to customers. They will be able to adjust their prices for each 		service. The api will suggest how much it should cost, but the mechanic will be able to adjust as needed. 
         The mechanic will also be able to set their hours of operation and create a calendar for themselves so they can set up appointments. 
         There will also be functionality for the mechanic to help their customers by looking up different engine error codes to help diagnose issues with cars. 
