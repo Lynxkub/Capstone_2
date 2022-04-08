@@ -6,20 +6,20 @@ What tech stack will you use?
     Node/React
 
 Is the front-end UI or the back-end going to be the focus of your project? Or are you going to make an evenly focused full-stack application?
-    I intend for this project to be an evenly focused full-stack application.
+   - I intend for this project to be an evenly focused full-stack application.
 
 Will this be a website? A mobile application? Something else?
-    This will be a website that has admin/user privileges for 2 different sides of the website
+   - This will be a website that has admin/user privileges for 2 different sides of the website
 
 What goal will your project be designed to achieve?
-    The goal of this project is to design a functional website for a car mechanic to be able to pull up car data to help their customers and manage their own personal work schedule
+   - The goal of this project is to design a functional website for a car mechanic to be able to pull up car data to help their customers and manage their own personal work schedule
 
  What kind of users will visit your app?
-    The mechanic will have admin abilities in order to look up different details on car repairs (time quotes for repairs , estimated costs, preventative maintenance , parts needed) to best assist their customers. The mechanic will also be able to set their work schedule on this website. 
-    A customer will also be able to access the website. On the user side, they will be able to view services that the mechanic offers and have access to request a time slot for a car repair
+   - The mechanic will have admin abilities in order to look up different details on car repairs (time quotes for repairs , estimated costs, preventative maintenance , parts needed) to best assist their customers. The mechanic will also be able to set their work schedule on this website. 
+   - A customer will also be able to access the website. On the user side, they will be able to view services that the mechanic offers and have access to request a time slot for a car repair
 
  What data do you plan on using?
-		a. carMD api - This api has all the information I will need in order to build this website. With this api, api calls can be made that return data such as: engine error codes , car repairs (with details about approx time to complete repair, specific parts needed for each repair, approx cost for parts, approx cost for labor , preventative maintenance suggestions based on the make/model/year/milage of a car)
+ -  carMD api - This api has all the information I will need in order to build this website. With this api, api calls can be made that return data such as: engine error codes , car repairs (with details about approx time to complete repair, specific parts needed for each repair, approx cost for parts, approx cost for labor , preventative maintenance suggestions based on the make/model/year/milage of a car)
 
 In brief, outline your approach to creating your project
     Database Schema-
