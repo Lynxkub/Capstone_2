@@ -6,6 +6,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "jsonschema": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
@@ -17,7 +18,7 @@
   "main": "backend/server.js",
   "scripts": {
     "test": "jest",
-    "start" : "nodemon backend/server.js"
+    "start": "nodemon backend/server.js"
   },
   "author": "",
   "license": "ISC"
