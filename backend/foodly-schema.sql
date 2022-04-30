@@ -19,6 +19,7 @@ CREATE TABLE saved_recipes (
     api_id INTEGER
 );
 
+
 CREATE TABLE diet_plan_recipies (
     username VARCHAR(25) REFERENCES users,
     plan_id  INTEGER REFERENCES plans,

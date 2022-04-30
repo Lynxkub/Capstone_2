@@ -103,3 +103,67 @@ describe('get username' , function () {
         }
     })
 })
+
+// update
+
+describe('update username' , function () {
+    test('updates correct user' , async function () {
+        let user = await User.update('user1' , {username : "newUserName" , password : 'password1' , first_name : 'user1First' , last_name : 'user1Last' , email : 'user1@email.com'});
+        expect(user).toEqual({
+            username : 'newUserName',
+            first_name : 'user1First' , 
+            last_name : 'user1Last' , 
+            email : 'user1@email.com'
+        })
+    })
+
+    test('does not update with incorrect password' , async function () {
+        try{
+            let user = await User.update('user1' , {username : 'newUserName' , password : 'wrongPassword' , first_name : 'user1First' , last_name : 'user1Last' , email : 'user1@email.com'});
+        }catch(e) {
+            expect(e instanceof BadRequestError).toBeTruthy();
+        }
+    })
+
+    test('does not update if user does not exist' , async function () {
+        try{
+            let user = await User.update('fakeUser' , {username : 'newUserName' , password : 'password1' , first_name : 'user1First' , last_name : 'user1Last' , email : 'user1@email.com'});
+        }catch (e){
+            expect(e instanceof BadRequestError).toBeTruthy();
+        }
+    })
+
+    test('cannot change username to one that is already being used' , async function () {
+        try{
+            let user = await User.update('user1' , {username : 'user2' , password : 'password1' , first_name : 'user1First' , last_name : 'user1Last' , email : 'user1@email.com'});
+        }catch(e){
+            expect(e instanceof BadRequestError).toBeTruthy();
+
+        }
+    })
+})
+
+
+// delete
+
+describe('delete username' , function () {
+    test('deletes user correctly' , async function () {
+        let user = await User.delete('user1');
+        expect(user).toEqual({msg : 'deleted'})
+
+        try{
+            let dbCheck = await User.get('user1');
+            console.log(dbCheck)
+        }catch(e) {
+            expect(e instanceof UnauthorizedError).toBeTruthy();
+        }
+    })
+
+    test('cannot delete user if user does not exist' , async function () {
+        try{
+        let user = await User.delete('fakeUser');
+        }catch(e) {
+            expect(e instanceof BadRequestError).toBeTruthy();
+        }
+    })
+})

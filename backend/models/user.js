@@ -3,10 +3,11 @@
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const { NotFoundError , BadRequestError , UnauthorizedError} = require('../expressError');
-
+const { sqlForPartialUpdate } = require('../helpers/sql');
 // need to create helper functions to help with updates
 
 const { BCRYPT_WORK_FACTOR } = require('../config.js');
+const res = require('express/lib/response');
 
 // User class for User related functions
 
@@ -74,7 +75,7 @@ class User {
         [username]);
 
         const user = result.rows[0];
-        console.log(user);
+       
 
         if(!user) {
             throw new UnauthorizedError(`User does not exist : ${username} `)
@@ -84,9 +85,59 @@ class User {
         
     }
 
+    static async update(username , data) {
+    if(data.password) {
+        data.password = await bcrypt.hash(data.password , BCRYPT_WORK_FACTOR);
+    }
+    
+// Username must be unique. Check to see if the username that is being changed already exists. Throw error if it exists.
+
+    if(data.username !== username) {
+         const usernameCheck = await db.query(`
+        SELECT username FROM users WHERE username = '${data.username}'`);
+        if(usernameCheck.rows[0]){
+            console.log('inside')
+            throw new BadRequestError(`Username ${data.username} already exists. Please choose another`)
+        }
+    }
+        const {setCols , values } = sqlForPartialUpdate(
+            data , 
+            {
+                first_name : "first_name",
+                last_name : "last_name"
+            }
+        )
+
+        const usernameVarIdx = "$" + (values.length + 1);
+
+        const querySql = `UPDATE users 
+                            SET ${setCols}
+                            WHERE username = ${usernameVarIdx}
+                            RETURNING username, first_name , last_name , email`
+                    
+        const result = await db.query(querySql , [...values , username]);
+        const user = result.rows[0];
+
+        if(!user) throw new BadRequestError(`No user : ${username}`);
+
+        delete user.password;
+        return user;
+    }
 
 
+    static async delete(username) {
+        // check to see if username exists
+        const result = await db.query(`
+        SELECT username FROM users WHERE username = '${username}'`);
+        let user = result.rows[0];
 
+        if(!user) throw new BadRequestError(`Username ${username} does not exist`);
+
+        await db.query(`
+        DELETE FROM users WHERE username = '${username}'`)
+
+        return {msg : 'deleted'}
+    }
 
 
 }

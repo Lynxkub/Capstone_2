@@ -40,6 +40,7 @@ router.post('/register' , async function (req , res , next ) {
 // Returns JWT token which can be used for further authentication requests
 
 
+
 router.post('/token' , async function (req , res , next ) {
     try {
         const validator = jsonschema.validate(req.body ,userAuthSchema);
