@@ -10,6 +10,7 @@ const { authenticateJWT } = require('./middleware/auth');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const recipeRoutes = require('./routes/recipes');
+const commentRoutes = require('./routes/comments');
 const app = express();
 
 
@@ -21,6 +22,7 @@ app.use(authenticateJWT);
 app.use('/auth' , authRoutes);
 app.use('/users' , userRoutes);
 app.use('/recipes' , recipeRoutes);
+app.use('/comments' , commentRoutes);
 
 
 app.use(function(req , res , next) {

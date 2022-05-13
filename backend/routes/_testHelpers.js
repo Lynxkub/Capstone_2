@@ -2,10 +2,15 @@
 
 const db = require('../db.js');
 const User = require('../models/user');
+const Recipe = require('../models/recipe');
+const Comment = require('../models/comment');
 const { createToken } = require('../helpers/tokens');
 
 async function helpersBeforeAll() {
     await db.query("DELETE FROM users");
+    await db.query("DELETE FROM saved_recipes");
+    await db.query("DELETE FROM comments");
+    await db.query("ALTER SEQUENCE comments_id_seq RESTART WITH 1");
 
 
 await User.register({
@@ -31,7 +36,16 @@ await User.register({
     email : 'three@three.com',
     password: 'password3'
 })
+
+await Recipe.saveMeal('testUser1' , 52804);
+await Comment.makeComment(52804 , 'test comment' , 'testUser1');
+await Comment.makeComment(52804 , 'this is another test comment' , 'testUser1');
+await Comment.makeComment(52804 , 'user 2 test comment' , 'testUser2');
+await Comment.makeComment(52804 , 'user 3 test comment' , 'testUser3');
+
+
 }
+
 
 async function  helpersBeforeEach() {
     await db.query("BEGIN");

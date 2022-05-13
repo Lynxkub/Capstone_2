@@ -42,6 +42,11 @@ class User {
         return user;
     }
 
+    // Authenticates a user for login purposes
+
+    // Returns { username , first_name , last_name , email }
+
+    // Throws UnauthroizedError if username/password combination is not valid
 
     static async authenticate(username , password) {
         // check to see if the user exists first
@@ -66,6 +71,12 @@ class User {
         throw new UnauthorizedError('Invalid username/password');
     }
 
+    // Retrieves user data for one user
+
+    // Returns { username , first_name , last_name , email }
+
+    // Throws Unauthroized error if username does not exists
+
     static async get(username) {
         // check to see if the user exists first
         const result = await db.query(`
@@ -84,6 +95,14 @@ class User {
         return user;
         
     }
+
+    // Updates information for a user
+
+    // Returns { username , first_name , last_name , email }
+
+    // Thorws BadRequestError if user tries to change their username to another one that already exists
+
+    // Thorws BadRequestError if user does not exist
 
     static async update(username , data) {
     if(data.password) {
@@ -124,6 +143,11 @@ class User {
         return user;
     }
 
+    // Deletes user from system
+
+    // Returns { msg : 'deleted' }
+
+    // Throws BadRequestError if user does not exist in system
 
     static async delete(username) {
         // check to see if username exists

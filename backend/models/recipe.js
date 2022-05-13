@@ -1,7 +1,7 @@
 "use strict";
 
 const db = require('../db');
-const { NotFoundError } = require('../expressError');
+const { NotFoundError , BadRequestError } = require('../expressError');
 const axios = require('axios');
 
 // Recipe class for Recipe related functions
@@ -34,22 +34,21 @@ class Recipe {
 
     }
 
+    // Searches api for recipes based on the main ingredient user searches for
+
+    // Returns all recipes where search ingredient is the main ingredient
+
+    // Throws NotFoundError if no results are found on api
 
     static async searchByIngredient(ingredient) {
+        const results = await axios.get(`${BASE_API}/filter.php?i=${ingredient}`);
+        if(results.data.meals === null) throw new NotFoundError(`Invalid search term : ${ingredient}`);
 
-
-    }
-
-
-    static async listAllCategories() {
-    
-    }
-
-
-    static async listAllAreas() {
-
+        return results.data.meals;
 
     }
+
+
 
     // Searches api for all the different categories that a user can search  for a recipe by
 
@@ -75,25 +74,68 @@ class Recipe {
 
     }
 
-    static async filterByArea(area) {
+    
+    // Searches api for a random recipe
 
-
-    }
 
     static async randomMeal() {
 
+        const results = await axios.get(`${BASE_API}/random.php`);
+        return results.data.meals;
 
     }
 
 
-    static async saveMeal(id) {
+    // Save recipe as a 'liked' recipe for user
 
+    static async saveMeal(username , mealId) {
+        // initial check to make sure mealId is valid
+
+        const validIdCheck = await this.findOne(mealId)
+        if (!validIdCheck) {
+            throw new NotFoundError(`${mealId} is not a valid meal ID`)
+        }
+
+        // user should not be able to save same recipe more than once. Initial query to see if this user already saved this recipe
+
+        const initialCheck = await db.query(`
+        SELECT username , api_id FROM saved_recipes
+        WHERE username = '${username}' AND api_id = '${mealId}'`);
+
+        if(initialCheck.rows[0]) throw new BadRequestError(`${username} has already saved this recipe`);
+
+        const results = await db.query(`
+        INSERT INTO saved_recipes (username , api_id)
+        VALUES ($1 , $2)
+        RETURNING username , api_id` , 
+        [username , mealId]);
+        return results.rows[0];
 
     }
 
-    static async removeSavedMeal(id) {
+    // removes a 'liked' recipe from users profile
 
+    static async removeSavedMeal(username , mealId) {
 
+        // initial check to see if meal is valid
+
+        const validIdCheck = await this.findOne(mealId);
+        if (!validIdCheck) {
+            throw new NotFoundError(`${mealId} is not a valid meal ID`)
+        }
+
+        // user should not be able to remove a saved recipe if the recipe is not saved for them
+
+        const initialCheck = await db.query(`
+        SELECT username , api_id FROM saved_recipes
+        WHERE username = '${username}' AND api_id = '${mealId}'`);
+
+        if(!initialCheck.rows[0]) throw new BadRequestError(`${username} does not have ${mealId} saved to their profile`);
+
+        const results = await db.query(`
+        DELETE FROM saved_recipes WHERE username = '${username}' AND api_id = '${mealId}'`);
+
+        return ({msg : 'deleted'})
     }
 }
 

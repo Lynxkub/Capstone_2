@@ -35,6 +35,7 @@ router.post('/register' , async function (req , res , next ) {
 })
 
 
+
 // POST /auth/token : { username , password } => { token }
 
 // Returns JWT token which can be used for further authentication requests
