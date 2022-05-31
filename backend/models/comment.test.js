@@ -22,7 +22,7 @@ describe('adds a comment to a meal' , function () {
             username : 'user1',
             api_id : 52772,
             comment : 'This recipe is amazing',
-            date_posted : expect.any(Date)
+            date_posted : expect.any(String)
         })
     })
 
@@ -67,7 +67,7 @@ describe('edits a comment' , function () {
             username : 'user1' ,
             api_id : 52804 , 
             comment : 'testing if this works',
-            date_posted : expect.any(Date),
+            date_posted : expect.any(String),
             is_edited : true
         })
     })
@@ -103,7 +103,7 @@ describe('allows a user to comment on a comment' , function () {
             username : 'user1' ,
             api_id : 52963,
             comment : 'this is a comment on a comment',
-            date_posted : expect.any(Date),
+            date_posted : expect.any(String),
             comment_commented_on : 1
         })
     })
@@ -122,5 +122,22 @@ describe('allows a user to comment on a comment' , function () {
         }catch(e) {
             expect(e instanceof NotFoundError).toBeTruthy();
         }
+    })
+})
+
+describe('gets all comments made on a recipe' , function () {
+    test('works' , async function () {
+        const resp = await Comment.getAllRecipeComments(52804);
+        console.log(resp);
+        expect(resp.length).toBe(2);
+    })
+})
+
+
+describe('gets only the sub comments made on a comment' , function () {
+    test('works' , async function () {
+        const resp = await Comment.getSubComments(1);
+        console.log(resp);
+        expect (resp.length).toBe(1);
     })
 })

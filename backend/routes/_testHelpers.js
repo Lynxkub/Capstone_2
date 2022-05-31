@@ -11,6 +11,7 @@ async function helpersBeforeAll() {
     await db.query("DELETE FROM saved_recipes");
     await db.query("DELETE FROM comments");
     await db.query("ALTER SEQUENCE comments_id_seq RESTART WITH 1");
+    await db.query("ALTER SEQUENCE saved_recipes_id_seq RESTART WITH 1")
 
 
 await User.register({
@@ -42,6 +43,7 @@ await Comment.makeComment(52804 , 'test comment' , 'testUser1');
 await Comment.makeComment(52804 , 'this is another test comment' , 'testUser1');
 await Comment.makeComment(52804 , 'user 2 test comment' , 'testUser2');
 await Comment.makeComment(52804 , 'user 3 test comment' , 'testUser3');
+await Comment.commentOnComment('test comment on comment' , 1 , 'testUser2' , 52804)
 
 
 }

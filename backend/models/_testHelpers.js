@@ -27,6 +27,11 @@ async function helperBeforeAll() {
     VALUES('user1' , 52804)`)
 
     await db.query(`
+    INSERT INTO saved_recipes
+    (username , api_id)
+    VALUES ('user1' , 52814)`)
+
+    await db.query(`
     INSERT INTO comments
     (api_id , comment , username , date_posted , is_edited)
     VALUES($1 , $2 , $3 , $4 , $5)`,
@@ -36,7 +41,19 @@ async function helperBeforeAll() {
     INSERT INTO comments
     (api_id , comment , username , date_posted , is_edited)
     VALUES($1 , $2 , $3 , $4 , $5)` ,
+    [52804 , 'another test comment' , 'user2' , now , false])
+
+    await db.query(`
+    INSERT INTO comments
+    (api_id , comment , username , date_posted , is_edited)
+    VALUES($1 , $2 , $3 , $4 , $5)` ,
     [52963 , 'test comment' , 'user1' , now , false])
+
+    await db.query(`
+    INSERT INTO comments
+    (api_id , comment , username , date_posted , is_edited , comment_commented_on)VALUES($1 , $2 , $3 , $4 , $5 , $6)` ,
+    [52963 , 'test comment on comment' , 'user2' , now , false , 1])
+    
 
   
 

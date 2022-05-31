@@ -156,3 +156,73 @@ describe('DELETE /delete/:username/:mealId' , function () {
         }
     })
 })
+
+
+// GET /search/:category/:choice
+
+describe('GET /search/:category/:choice' , function () {
+    test('works' , async function () {
+        const resp = await request(app)
+        .get('/recipes/search/area/American')
+
+        expect(resp.body.results.length).toBe(32);
+    })
+
+    test('throws error if invalid category search' , async function () {
+        try{
+            const resp = await request(app)
+            .get('/recipes/search/fake/American')
+        }catch(e) {
+            expect(e instanceof BadRequestError).toBeTruthy()
+        }
+    })
+})
+
+
+// GET /liked/:username/:mealId
+
+describe('GET /liked/:username/:mealId' , function () {
+    test('works' , async function () {
+        const resp = await request(app)
+        .get('/recipes/liked/testUser1/52804')
+        .set('authrorization' , user1Token);
+
+        expect(resp.body.results).toEqual({
+            id : 1,
+            username : 'testUser1',
+            api_id : 52804
+        })
+    })
+
+    test('send undefined if user has not liked the recipe' , async function () {
+        const resp = await request(app)
+        .get('/recipes/liked/testUser1/11111')
+        .set('authorization' , user1Token);
+
+        expect(resp.body.resutls).toBe(undefined);
+    })
+
+    test('throws error if user is not logged in' , async function () {
+        try{
+            const resp = await request(app)
+        .get('/recipes/liked/testUser1/52804')
+        }catch(e) {
+            expect(e instanceof UnauthorizedError).toBeTruthy();
+        }
+        
+
+    
+    })
+})
+
+// GET /:username/likedrecipes
+
+describe('/:username/likedrecipes' , function () {
+    test('works' , async function () {
+        const res = await request(app)
+        .get('/recipes/testUser1/likedrecipes')
+        .set('authorization' , user1Token);
+
+        expect(res.body.results.length).toBe(1)
+    })
+})

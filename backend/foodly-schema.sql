@@ -32,7 +32,7 @@ CREATE TABLE comments (
     username VARCHAR(25) REFERENCES users ON DELETE CASCADE,
     api_id INTEGER NOT NULL,
     comment TEXT NOT NULL,
-    date_posted DATE NOT NULL,
+    date_posted TEXT NOT NULL,
     is_edited BOOLEAN NOT NULL,
     comment_commented_on INTEGER
 )

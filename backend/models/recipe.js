@@ -74,6 +74,28 @@ class Recipe {
 
     }
 
+    // Searches api for all recipes based on either category or area
+
+    // category can be either Category or Area
+
+    // searchParam is either the name of the country or the type of food
+
+    static async findAllRecipesByCategoryOrArea(category , searchParam) {
+        let apiSearchParam;
+
+        if(category === 'area') {
+            apiSearchParam = 'a'
+        }else if (category === 'category') {
+            apiSearchParam = 'c'
+        }else {
+            throw new NotFoundError(`Invalid Search : ${category}`);
+        }
+
+        const results = await axios.get(`${BASE_API}/filter.php?${apiSearchParam}=${searchParam}`)
+       
+        return results.data.meals
+    }
+
     
     // Searches api for a random recipe
 
@@ -136,6 +158,23 @@ class Recipe {
         DELETE FROM saved_recipes WHERE username = '${username}' AND api_id = '${mealId}'`);
 
         return ({msg : 'deleted'})
+    }
+
+    // gets saved meal for a user
+
+    static async getSavedMeal(username , mealId) {
+
+        const results = await db.query(`SELECT * FROM saved_recipes WHERE username = $1 AND api_id = $2` , [username , mealId])
+        if(results.rows[0]) {
+            return results.rows[0];
+        }else{
+            return undefined
+        }
+    }
+
+    static async getAllSavedMeals(username) {
+        const results = await db.query(`SELECT * FROM saved_recipes WHERE username = $1` , [username]);
+        return results.rows;
     }
 }
 

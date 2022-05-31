@@ -7,6 +7,7 @@ let now = new Date()
 
 
 
+
 class Comment {
 
 
@@ -17,12 +18,12 @@ class Comment {
         if(comment.length === 0) {
             throw new BadRequestError(`Comment is empty`)
         }
-
+        let date = now.toLocaleDateString();
         const results = await db.query(`INSERT INTO comments
         (username , api_id , comment , date_posted , is_edited)
         VALUES ($1 , $2 , $3 , $4 , $5) 
         RETURNING username , api_id , comment , date_posted`,
-        [username , mealId, comment , now , false]);
+        [username , mealId, comment , date , false]);
         return results.rows[0];
     }
 
@@ -84,16 +85,30 @@ class Comment {
             throw new BadRequestError('Comment does not have any contet')
         }
         const initialCheck = await db.query(`SELECT * FROM comments WHERE id = $1` , [origionalCommentId]);
-        // console.log(initialCheck.rows[0])
         if(!initialCheck.rows[0]) {
             throw new NotFoundError(`Cannot comment on a comment that does not exist`)
         }
+        let date = now.toLocaleDateString();
+
         const results = await db.query(`INSERT INTO comments (username , api_id , comment , date_posted , is_edited , comment_commented_on)
         VALUES ($1 , $2 , $3 , $4 , $5, $6)
         RETURNING username , api_id , comment , date_posted , comment_commented_on` ,
-        [username , mealId , comment , now , false , origionalCommentId])
+        [username , mealId , comment , date , false , origionalCommentId])
 
         return results.rows[0];
+    }
+
+    // Gets all comments made on a recipe
+
+    static async getAllRecipeComments(mealId) {
+        const res = await db.query(`SELECT * FROM comments WHERE api_id = $1` , [mealId]);
+        return res.rows;
+    }
+
+
+    static async getSubComments(origionalCommentId) {
+        const res = await db.query(`SELECT * FROM comments WHERE comment_commented_on = $1` , [origionalCommentId]);
+        return res.rows;
     }
 }
 

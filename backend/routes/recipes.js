@@ -103,4 +103,56 @@ router.delete('/delete/:username/:mealId' , ensureCorrectUser , async function (
     }
 })
 
+
+// GET /search/:category/:choice
+
+// Returns { list of meals filtered by users choice of category or area }
+
+// Authroization required : none
+
+router.get('/search/:category/:choice' , async function (req , res , next) {
+    try{
+        const results = await Recipe.findAllRecipesByCategoryOrArea(req.params.category , req.params.choice);
+        return res.json({ results })
+    }catch(e) {
+        return next(e);
+    }
+})
+
+
+// GET /liked/:username/:mealId
+
+// Returns { liked recipe if user has liked it }
+
+// Authroization required : ensureCorrectUser
+
+router.get('/liked/:username/:mealId' , async function (req , res , next) {
+    try{
+        const results = await Recipe.getSavedMeal(req.params.username , req.params.mealId);
+        if(!results) {
+            console.log('here')
+            return res.json({msg: 'does not exist'})
+        }else{
+            return res.json({ results })
+        }
+    }catch(e) {
+        return next(e);
+    }
+})
+
+
+// GET /:username/likedrecipes
+
+// Returns { list of liked recipes for the user }
+
+// Authrorization required : ensureCorrectUser
+
+router.get('/:username/likedrecipes' , async function (req , res , next) {
+    try{
+        const results = await Recipe.getAllSavedMeals(req.params.username);
+        return res.json({ results});
+    }catch(e) {
+        return next(e);
+    }
+})
 module.exports = router;

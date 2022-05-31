@@ -31,7 +31,6 @@ router.get('/:username/all' , ensureCorrectUser ,async function (req , res , nex
 router.post('/:username/:mealId/postcomment' , ensureCorrectUser , async function (req , res , next) {
     try{
         const comment = req.body.comment;
-        console.log(comment);
         const results = await Comment.makeComment(req.params.mealId , comment , req.params.username);
         return res.json({ results });
     }catch(e) {
@@ -84,7 +83,39 @@ router.post('/:mealId/:username/:commentId/commentoncomment' , ensureCorrectUser
         const results = await Comment.commentOnComment(comment , req.params.commentId , req.params.username , req.params.mealId);
         return res.json({ results })
     }catch(e) {
+        return next(e);
+    }
+})
 
+
+// GET /:recipeId => { comments }
+
+// Returns { comment_id , username , api_id , comment , date_posted , is_edited ,comment_commented_on} for all comments made on a specific recipe
+
+// Authrorization required : none
+
+router.get('/:recipeId' , async function (req , res , next) {
+    try{
+        const results = await Comment.getAllRecipeComments(req.params.recipeId);
+        return res.json({ results })
+    }catch(e) {
+        return next(e);
+    }
+})
+
+
+// GET /:commentcommentedon => { comments commented on }
+
+// Returns { comment_id , username , api_id , comment , date_posted , is_edited , comment_commented_on } for all comments made on a specific comment
+
+// Authrorization required : none
+
+router.get('/commentcommentedon/:commentcommentedon' , async function (req , res , next) {
+    try{
+        const results = await Comment.getSubComments(req.params.commentcommentedon);
+        return res.json({ results })
+    }catch(e) {
+        return next(e);
     }
 })
 

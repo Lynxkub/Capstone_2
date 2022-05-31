@@ -74,9 +74,9 @@ describe('POST /:username/:mealId/postcomment' , function () {
             username : 'testUser1' ,
             api_id : 52963,
             comment : 'test comment',
-            date_posted : expect.any(Date),
+            date_posted : expect.any(String),
             is_edited : false,
-            id : 5,
+            id : 6,
             comment_commented_on : null
         })
     })
@@ -193,7 +193,6 @@ describe('/:mealId/:username/:commentId/commentoncomment' , function () {
         .send({
             comment : 'this is a comment on a comment'
         })
-        console.log(resp.body.results)
         expect(resp.body).toEqual({
            results : {
             username : 'testUser1',
@@ -208,7 +207,7 @@ describe('/:mealId/:username/:commentId/commentoncomment' , function () {
 
         const dbQuery = await db.query(`SELECT comment FROM comments WHERE comment_commented_on = 1`);
         expect(dbQuery.rows[0]).toEqual({
-            comment : 'this is a comment on a comment'
+            comment : 'test comment on comment'
         })
     })
 
@@ -227,5 +226,37 @@ describe('/:mealId/:username/:commentId/commentoncomment' , function () {
             const dbQuery = await db.query(`SELECT * FROM comments WHERE comment_commented_on = 1`);
             expect(dbQuery.rows[0]).toBeFalsy();
         }
+    })
+})
+
+
+// GET /:recipeId
+
+describe('GET /:recipeId' , function () {
+    test('works' , async function () {
+        const resp = await request(app)
+        .get('/comments/52804')
+        expect(resp.body.results.length).toBe(5);
+})
+
+    test('throws NotFoundError if invliad id' , async function () {
+        try{
+        const resp = await request(app)
+        .get('/comments/12345');
+        }catch(e) {
+            expect(e instanceof NotFoundError).toBeTruthy();
+        }
+    })
+})
+
+
+// GET /:commentcommentedon
+
+describe('GET /:commentcommentedon' , function () {
+    test('works' , async function () {
+        const resp = await request(app)
+        .get('/comments/commentcommentedon/1');
+      
+        expect(resp.body.results[0].comment).toBe('test comment on comment')
     })
 })

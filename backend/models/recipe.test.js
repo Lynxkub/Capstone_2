@@ -5,6 +5,7 @@ const { NotFoundError, BadRequestError } = require('../expressError');
 const db = require('../db.js');
 
 const {helperAfterAll , helperAfterEach , helperBeforeAll , helperBeforeEach} = require('./_testHelpers');
+const e = require('express');
 
 
 beforeAll(helperBeforeAll);
@@ -149,5 +150,51 @@ describe('user can delete a saved recipe and remove it from their profile' , fun
             username : 'user1',
             api_id : 52804
         })
+    })
+})
+
+
+describe('user can search for a list of recipes based on either area or category' , function () {
+    test('works for area' , async function () {
+        const results = await Recipe.findAllRecipesByCategoryOrArea('area' , 'American')
+
+        expect(results.length).toBe(32);
+    })
+
+    test('works for category' , async function () {
+        const results = await Recipe.findAllRecipesByCategoryOrArea('category' , 'dessert');
+
+        expect(results.length).toBe(64);
+    })
+
+    test('throws error if category is invaid' , async function () {
+        try{
+            const resutls = await Recipe.findAllRecipesByCategoryOrArea('fake' , 'fake')
+        }catch(e){
+            expect(e instanceof NotFoundError).toBeTruthy();
+        }
+    })
+})
+
+describe('query database to see if user likes a specific recipe' , function () {
+    test('works' , async function () {
+        const results = await Recipe.getSavedMeal('user1' , 52804);
+        expect(results).toEqual({
+            id : expect.any(Number),
+            username : 'user1',
+            api_id : 52804
+        })
+    })
+    test('returns undefined if user has not liked the specific meal' , async function () {
+        const results = await Recipe.getSavedMeal('user1' , 51111);
+        expect(results).toBe(undefined)
+    })
+})
+
+describe('query database to find all liked recipes for a user' , function () {
+    test('works' , async function () {
+        const results = await Recipe.getAllSavedMeals('user1');
+        console.log(results)
+        expect(results.length).toBe(2);
     })
 })
