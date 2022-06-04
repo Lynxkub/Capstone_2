@@ -3,6 +3,11 @@ import { useHistory } from 'react-router-dom';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import './home.css'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 const LogInForm = ( { login , token }) => {
 
 
@@ -37,8 +42,19 @@ const LogInForm = ( { login , token }) => {
     }
 
     return (
-        <div>
+        <div className='bg-homepage'>
+            <Container>
+                <Row className='p-2'>
+                    <Col />
+                    <Col xs = {7}>
+                        <h1 className='text-center'>Please Enter Your Account Information</h1>
+                    </Col>
+                    <Col />
+                </Row>
             <Form onSubmit = {handleSubmit}>
+                <Row>
+                    <Col />
+                    <Col xs={6}>
                 <FloatingLabel controlId = 'floatingInput' label = 'Username' className = 'mb-3'>
                     <Form.Control 
                     type = 'text' 
@@ -49,6 +65,12 @@ const LogInForm = ( { login , token }) => {
                     onChange = {handleChange}
                     />
                 </FloatingLabel>
+                </Col>
+                <Col />
+                </Row>
+                <Row>
+                    <Col />
+                    <Col xs = {6}>
                 <FloatingLabel controlId = 'floatingInput' label = 'Password' className = 'mb-3'>
                     <Form.Control 
                     type = 'password' 
@@ -59,11 +81,25 @@ const LogInForm = ( { login , token }) => {
                     onChange = {handleChange}
                     />
                 </FloatingLabel>
+                </Col>
+                <Col />
+                </Row>
+                <Row>
+                    <Col />
+                    <Col xs={2}>
                 <Button variant='outline-secondary' data-testid = 'loginSubmit' onClick = {handleSubmit}>Log In</Button>
+                </Col>
+                <Col />
+                </Row>
             </Form>
-            <div>
+            <Row>
+                    <Col />
+                    <Col xs={2}>
                 <p><a href = '/signup'><Button variant = 'outline-secondary'>Sign up here!</Button></a></p>
-            </div>
+                </Col>
+                <Col />
+            </Row>
+            </Container>
         </div>
     )
 }

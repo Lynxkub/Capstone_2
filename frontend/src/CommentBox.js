@@ -39,9 +39,16 @@ const CommentBox = ( { addComment , origionalCommentId , handleKeyPress} ) => {
             <div>
             <Form onSubmit = {handleSubmit} className='p-2'>
             <FloatingLabel controlId='comment' label='Thoughts?'>
-                <Form.Control as='textarea' placeholder='Comment' className='w-50' style={{height : '100px'}}/>
+                <Form.Control 
+                as='textarea'
+                className='w-50' 
+                style={{height : '100px'}} 
+                value = {comment.comment} 
+                onChange={handleChange}
+                name='comment'
+                />
             </FloatingLabel>
-            <Button id = 'submitComment' variant='primary'>Add Comment</Button>
+            <Button id = 'submitComment' variant='primary' onClick={handleSubmit}>Add Comment</Button>
             </Form>
             </div>
         </div>

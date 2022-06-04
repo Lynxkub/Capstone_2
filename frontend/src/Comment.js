@@ -16,6 +16,7 @@ const Comment = ( { comment , addComment , commentId , handleKeyPress , trigger}
     const [subComments , setSubComments] = useState([]);
     const [isLoading , setIsLoading] = useState(true);
     const [subCommentsExist , setSubCommentsExist] = useState(false);
+
     useEffect(() => {
         async function getAllSubcomments () {
             setSubComments(await FoodlyApi.getSubComments(commentId));
@@ -63,22 +64,22 @@ const Comment = ( { comment , addComment , commentId , handleKeyPress , trigger}
         )
     }else {
     return (
-                <div>
-                    <Accordion alwaysOpen key={uuid()}>
+                <div >
+                    <Accordion alwaysOpen defaultActiveKey={['0']}  key={uuid()}>
                         <Accordion.Item eventKey='0'>
                             
-        <Card onMouseEnter = {handleHoverOver} onMouseLeave = {handleHoverOut}  >
+        <Card   >
             
             <Card.Header >{comment.username}</Card.Header>
             <Accordion.Header>
                 <Card.Body>
                     <p>
                         {comment.comment}
-                        {isCurrUserComment && isHovering ? <><CloseButton  onClick = {handleDelete} ></CloseButton></> : ''}
-                        {isReplying ? <CommentBox handleKeyPress = {handleKeyPress} addComment = {addComment} origionalCommentId = {commentId}/> : ''}
+                        {isCurrUserComment  ? <><CloseButton  onClick = {handleDelete} ></CloseButton></> : ''}
+                        {isReplying ? <CommentBox key={uuid()} handleKeyPress = {handleKeyPress} addComment = {addComment} origionalCommentId = {commentId}/> : ''}
                     </p>
                 <footer className='blockquote-footer'>
-                    {comment.date_posted} {isHovering ? <Button onClick = {handleReply} size='sm'>Reply</Button> : ''}
+                    {comment.date_posted} <Button onClick = {handleReply} size='sm'>Reply</Button>
                     {subCommentsExist ? subComments.length === 1 ? '1 Reply' : `${subComments.length} Replies` : ''}
                 </footer>
                 </Card.Body>

@@ -108,22 +108,16 @@ describe('get username' , function () {
 
 describe('update username' , function () {
     test('updates correct user' , async function () {
-        let user = await User.update('user1' , {username : "newUserName" , password : 'password1' , first_name : 'user1First' , last_name : 'user1Last' , email : 'user1@email.com'});
+        let user = await User.update('user1' , {username : "user1" , password : 'password1' , first_name : 'user1First' , last_name : 'user1Last' , email : 'user1@email.com'});
         expect(user).toEqual({
-            username : 'newUserName',
+            username : 'user1',
             first_name : 'user1First' , 
             last_name : 'user1Last' , 
             email : 'user1@email.com'
         })
     })
 
-    test('does not update with incorrect password' , async function () {
-        try{
-            let user = await User.update('user1' , {username : 'newUserName' , password : 'wrongPassword' , first_name : 'user1First' , last_name : 'user1Last' , email : 'user1@email.com'});
-        }catch(e) {
-            expect(e instanceof BadRequestError).toBeTruthy();
-        }
-    })
+  
 
     test('does not update if user does not exist' , async function () {
         try{

@@ -1,6 +1,7 @@
 import React , {useState , useEffect} from 'react';
 import FoodlyApi from './api';
-import {useParams , useHistory} from 'react-router-dom';
+import {useParams , useHistory } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 const RecipeLike = ({ likedStatus }) => {
     const history = useHistory();
@@ -18,8 +19,8 @@ const RecipeLike = ({ likedStatus }) => {
         if(!username) {
             history.push('/login')
             setTimeout(() => {
-                alert('Please sign in')
-            } , 500)
+               alert('Please Sign In')
+            } , 200)
             
         }else{
         await FoodlyApi.saveMeal(username , id)
@@ -35,7 +36,8 @@ const RecipeLike = ({ likedStatus }) => {
     return(
         <div>
             <div>
-            {isLiked ? <span>Saved Recipe! <button onClick = {handleDeleteRecipe}>Remove from my list</button></span> : <button onClick = {handleSaveRecipe}>Save This Recipe</button>}
+            {isLiked ? <span>Saved Recipe! <Button onClick = {handleDeleteRecipe} variant = 'danger' className='btn-sm'>Remove from my list</Button></span> : <><Button onClick = {handleSaveRecipe} variant='info' className='btn-sm'>Save This Recipe</Button> 
+            </>}
             </div>
         </div>
     )

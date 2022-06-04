@@ -41,9 +41,9 @@ const Home = () => {
         <div className = 'bg-homepage'>
             <div className = 'd-flex align-items-center justify-content-center'>
                 <div className = 'p-5'>
-            <p><h1>Welcome to Foodly!</h1></p>
-            <p>First time here? <Link to = '/signup'>Sign Up Here</Link></p>
-            <p>Returning User? <Link to = '/login'>Log In here</Link></p>
+            <h1>Welcome to Foodly!</h1>
+            <h6 className='text-center p-2'>First time here? <Link to = '/signup'>Sign Up Here</Link></h6>
+            <h6 className='text-center'>Returning User? <Link to = '/login'>Log In here</Link></h6>
             </div>
             </div>
             <div className = 'd-flex align-items-center justify-content-center w-100 h-50'>

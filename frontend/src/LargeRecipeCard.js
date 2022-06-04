@@ -1,5 +1,5 @@
 import React, { useEffect , useState } from 'react';
-import {useParams , Link} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import FoodlyApi from './api';
 import uuid from 'react-uuid';
 import CommentSection from './CommentSection';
@@ -11,7 +11,6 @@ import Col from 'react-bootstrap/Col';
 import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
 import './home.css'
-
 
 const LargeRecipeCard = ( { addComment }) => {
     const {id} = useParams()
@@ -68,32 +67,37 @@ const handleSaveRecipe = async () => {
    }else {
     return (
         <div className = 'bg-homepage'> 
-            <Container>
-                <Row className ='justify-content-md-center'>
-                    <Col xs lg='2' />
-                    <Col md='auto'>
-                <h1>{meal.strMeal}</h1>
-          
-                <RecipeLike likedStatus = {isLiked}/>
+            <Container key = {uuid()}>
+                <Row key = {uuid()}>
+                    <Col key = {uuid()}/>
+                    <Col xs = {7}  key = {uuid()}>
+                <h1 className='text-center'>{meal.strMeal}</h1>
                 </Col>
-                <Col xs lg='2' />
+                <Col />
+                </Row>
+                <Row key = {uuid()}>
+                    <Col  key = {uuid()}/>
+                    <Col xs={2} key = {uuid()}>
+                <RecipeLike likedStatus = {isLiked} key = {uuid()}/>
+                </Col>
+                <Col  key = {uuid()}/>
                 </Row>
                 </Container>
-                <Container className = 'p-2'>
-                    <Row className = 'justify-content-md-center'>
-                        <Col xs lg='2' />
-                        <Col md='auto'>
+                <Container className = 'p-2' key = {uuid()}>
+                    <Row className = 'justify-content-md-center' key = {uuid()}>
+                        <Col xs lg='2' key = {uuid()}/>
+                        <Col md='auto' key = {uuid()}>
             <img src = {meal.strMealThumb} style = {{'height' : '350px' , 'width' : '350px'}} alt = {`${meal.strMeal}`}></img>
             </Col>
-            <Col xs lg='2' />
+            <Col xs lg='2'  key = {uuid()}/>
             </Row>
             </Container>
             <div  className='row justify-content-center'>
-            <Accordion alwaysOpen className = 'w-50'>
-                <Accordion.Item eventKey ='0' >
-            <Accordion.Header>Ingredients needed for {meal.strMeal}</Accordion.Header>
-            <Accordion.Body className = 'bg-opacity-25'>
-            <ListGroup>
+            <Accordion alwaysOpen className = 'w-50' key = {uuid()}>
+                <Accordion.Item eventKey ='0' key = {uuid()}>
+            <Accordion.Header key = {uuid()}>Ingredients needed for {meal.strMeal}</Accordion.Header>
+            <Accordion.Body className = 'bg-opacity-25' key = {uuid()}>
+            <ListGroup key = {uuid()}>
             {ingredients.map(i => {
                 let index = ingredients.indexOf(i)
                 if(i !== "" && i !== null) {
@@ -106,11 +110,11 @@ const handleSaveRecipe = async () => {
             </Accordion>
             </div>
             <div className='row justify-content-center'>
-            <Accordion alwaysOpen className = 'w-50'>
-            <Accordion.Item eventKey='1' >
-                <Accordion.Header>Instructions</Accordion.Header>
-                <Accordion.Body className='bg-opacity-25'>
-                    <ListGroup>
+            <Accordion alwaysOpen className = 'w-50' key = {uuid()}>
+            <Accordion.Item eventKey='1' key = {uuid()} >
+                <Accordion.Header key = {uuid()}>Instructions</Accordion.Header>
+                <Accordion.Body className='bg-opacity-25' key = {uuid()}>
+                    <ListGroup key = {uuid()}>
                     <ListGroup.Item key = {uuid()} variant='info'>{meal.strInstructions}</ListGroup.Item>
                     </ListGroup>
                
@@ -129,7 +133,7 @@ const handleSaveRecipe = async () => {
             <div className='row justify-content-center'>
             <CommentBox addComment = {addComment} key = {uuid()} handleKeyPress = {handleKeyPress} />
             </div>
-          <CommentSection addComment = {addComment} handleKeyPress = {handleKeyPress} trigger = {rerenderTrigger}/>
+          <CommentSection addComment = {addComment} handleKeyPress = {handleKeyPress} trigger = {rerenderTrigger} key = {uuid()}/>
           
         </div>
     )

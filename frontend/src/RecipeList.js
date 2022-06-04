@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from 'react';
-import {useParams , Link} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import FoodlyApi from './api';
 import './RecipeList.css';
 import SmallRecipeCard from './SmallRecipeCard';
@@ -8,6 +8,8 @@ import Spinner from 'react-bootstrap/Spinner';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import './home.css';
+
 const RecipeList = () => {
 
     const {category} = useParams();
@@ -32,7 +34,7 @@ const RecipeList = () => {
         )
     }else{
     return(
-        <div>
+        <div className='bg-homepage'>
             <Container>
                 <Row className = 'justify-content-md-center'>
                     <Col  xs lg='2'/>

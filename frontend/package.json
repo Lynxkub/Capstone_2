@@ -2,6 +2,7 @@
     "name": "my-app-name",
     "version": "0.1.0",
     "private": true,
+    "type" : "module",
     "dependencies": {
         "axios": "^0.27.2",
         "bootstrap": "^5.1.3",

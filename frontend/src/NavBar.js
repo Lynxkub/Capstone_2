@@ -1,8 +1,9 @@
 import React from 'react';
-import { NavLink , useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
+
+
 const NavBar = () => {
     const history = useHistory();
     const loggedIn = localStorage.getItem('username');

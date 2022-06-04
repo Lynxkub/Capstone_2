@@ -1,9 +1,7 @@
 import React , {useState , useEffect} from 'react';
-import CommentBox from './CommentBox';
 import {useParams} from 'react-router-dom';
 import FoodlyApi from './api';
 import Comment from './Comment';
-import uuid from 'react-uuid';
 
 
  
@@ -11,7 +9,6 @@ const CommentSection = ( { addComment , handleKeyPress , trigger }) => {
     const {id} = useParams();
     const [comments , setComments] = useState();
     const [isLoading , setIsLoading] = useState(true);
-    const [checkForComment , setCheckForComment] = useState([]);
     
 
     

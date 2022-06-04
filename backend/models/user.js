@@ -115,7 +115,6 @@ class User {
          const usernameCheck = await db.query(`
         SELECT username FROM users WHERE username = '${data.username}'`);
         if(usernameCheck.rows[0]){
-            console.log('inside')
             throw new BadRequestError(`Username ${data.username} already exists. Please choose another`)
         }
     }
@@ -138,6 +137,7 @@ class User {
         const user = result.rows[0];
 
         if(!user) throw new BadRequestError(`No user : ${username}`);
+        
 
         delete user.password;
         return user;

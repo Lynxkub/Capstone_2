@@ -1,5 +1,14 @@
 import React , {useEffect, useState} from 'react';
 import FoodlyApi from './api';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import './home.css'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+
 
 
 const UserProfileUpdate = () => {
@@ -45,41 +54,50 @@ const UserProfileUpdate = () => {
 
     if(userToken === 'undefined') {
         return (
-            <div>
+            <div className='bg-homepage'>
                 <p>You must be logged in to view this page</p>
             </div>
         )
     }
 
     return (
-        <div>
-            <form onSubmit = {handleSubmit}>
-                <label htmlFor = 'first_name'>First Name</label>
-                <input
+        <div className='bg-homepage'> 
+    <Container>
+        <Row>
+            <Col />
+            <Col xs={7}>
+                <h4 className='text-center'>Edit your first name , last name , or email here </h4>
+            </Col>
+            <Col />
+        </Row>
+    </Container>
+            <Form onSubmit = {handleSubmit}>
+                <FloatingLabel  controlId='floatingInput' className='mb-3'>First Name</FloatingLabel>
+                <Form.Control
                 type = 'text'
                 name = 'first_name'
                 value = {formData.first_name}
                 data-testid = 'first_name'
                 onChange = {handleChange}
                 />
-                <label htmlFor = 'last_name'>Last Name</label>
-                <input 
+                <FloatingLabel  controlId='floatingInput' className='mb-3'>Last Name</FloatingLabel>
+                <Form.Control 
                 type = 'text'
                 name= 'last_name'
                 value = {formData.last_name}
                 data-testid = 'last_name'
                 onChange = {handleChange}
                 />
-                <label htmlFor = 'email'>Email</label>
-                <input 
+                <FloatingLabel  controlId='floatingInput' className='mb-3'>Email</FloatingLabel>
+                <Form.Control 
                 type = 'email'
                 name = 'email'
                 value = {formData.email}
                 data-testid = 'email'
                 onChange = {handleChange}
                 />
-                <button id = 'updateProfileButton'>Submit Changes</button>
-            </form>
+                <Button id = 'updateProfileButton' variant = 'outline-secondary'>Submit Changes</Button>
+            </Form>
         </div>
     )
 }
